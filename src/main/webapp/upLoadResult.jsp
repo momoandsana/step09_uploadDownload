@@ -14,7 +14,7 @@
 name : ${requestScope.name} <br>
 subject : ${requestScope.subject} <br>
 fileName : ${fileName} <br>
-<%--fileSize : <fmt:formatNumber value="${fileSize}"/>byte <br>--%>
+fileSize : <fmt:formatNumber value="${fileSize}"/>byte <br>
 saveDir : ${requestScope.saveDir} <br>
 </h4>
 
