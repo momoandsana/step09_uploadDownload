@@ -1,9 +1,6 @@
 package ex0927.servlet;
 
 import java.io.IOException;
-
-
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,78 +9,60 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 
-
 @WebServlet("/UpLoad")
-@MultipartConfig( //어노테이션을 통해  서블릿이 파일 업로드 기능을 할 수 있도록 웹 컨테이너에 지시
-        maxFileSize = 1024 * 1024 * 5, //5M - 한 번에 업로드 할 수 있는 파일 크기 제한
-       maxRequestSize = 1024 * 1024 * 50 //50M -전체 요청의 크기 제한. 기본값은 무제한 
+@MultipartConfig(
+		maxFileSize = 1024 * 1024 * 5, // 5M - 한 번에 업로드 할 수 있는 파일 크기 제한
+		maxRequestSize = 1024 * 1024 * 50 // 50M - 전체 요청의 크기 제한
 )
 public class UpLoadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    
+
+	// 1. HTTP POST 요청을 처리하는 메서드
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String name = request.getParameter("name");
-		String subject = request.getParameter("subject");// string 으로 넘어오는 것들은 getParameter 로 얻는다
-		
-		Part part = request.getPart("file");
-		//Servlet 3.0버전부터 제공되는 Part API를 이용한 방법인데, getPart() 메서드
-		// 파일들은 getParameter 로 얻지 못한다
+		String name = request.getParameter("name"); // 2. 이름 파라미터 가져오기
+		String subject = request.getParameter("subject"); // 3. 과목 파라미터 가져오기
 
-		String fileName = this.getFilename(part);// 파일이름 조회
-		long fileSize = part.getSize(); // 첨부된 파일 크기
-		
+		Part part = request.getPart("file"); // 4. 파일 파트 가져오기
+		String fileName = this.getFilename(part); // 5. 파일 이름 조회
+		long fileSize = part.getSize(); // 6. 첨부된 파일 크기
 
-//		String saveDir = request.getServletContext().getRealPath("/save"); // 웹 어플리케이션의 save 경로 밑에 저장
-		String saveDir="C:\\Edu\\WebProgramming\\save\\";
+		String saveDir = "C:\\Edu\\WebProgramming\\save\\"; // 7. 파일 저장 경로
 
-		if (fileName!=null) {
-            part.write( saveDir + "/"+ fileName);
-        }//저장(업로드)
-		
+		if (fileName != null) {
+			part.write(saveDir + "/" + fileName); // 8. 파일 저장
+		}
+
+		// 9. 콘솔에 정보 출력
 		System.out.println("name = " + name);
 		System.out.println("subject = " + subject);
 		System.out.println("fileName = " + fileName);
 		System.out.println("fileSize = " + fileSize);
-		
-		//scope 영역에 저장
-		request.setAttribute("name", name); //뷰에서 ${requestScope.name}
+
+		// 10. 요청 속성에 정보 저장
+		request.setAttribute("name", name); // 뷰에서 ${requestScope.name}
 		request.setAttribute("subject", subject);
 		request.setAttribute("fileSize", fileSize);
 		request.setAttribute("fileName", fileName);
 		request.setAttribute("saveDir", saveDir);
-		
-		
-		//결과페이지로 이동 - 뷰에서  출력할 정보를 저장해서 간다.!!!
+
+		// 11. 결과 페이지로 포워딩
 		request.getRequestDispatcher("upLoadResult.jsp").forward(request, response);
-		
 	}
-	/*
-	첨부된 파일이름 추출하기
-	 */
 
+	// 12. 첨부된 파일 이름 추출하기
 	private String getFilename(Part part) {
-        String headerContent = part.getHeader("content-disposition");
+		String headerContent = part.getHeader("content-disposition"); // 13. 헤더에서 content-disposition 가져오기
+		// contentDisp의 결과 form-data; name="fileName"; filename="추가한 파일 이름"
+		System.out.println(headerContent); // 14. 헤더 출력
 
-		//contentDisp의 결과 form-data; name="fileName"; filename="추가한 파일 이름"
-		System.out.println(headerContent);
+		String[] split = headerContent.split(";"); // 15. 헤더를 분리하여 배열로 저장
 
-		String[] split = headerContent.split(";");// 추가한, 파일, 이름
-        for (int i = 0; i < split.length; i++) {
-            String temp = split[i];
-            if (temp.trim().startsWith("filename")) // 공백을 제거하고 filename 를 찾는다
-			{
-				System.out.println(temp);
-                return temp.substring(temp.indexOf("=") + 2, temp.length() - 1);// 추가한 파일 이름 <-이거를 잘라내기 해서 담아, 파일이름만 추출함
-            }
-        }
-        return null;
-    }
-
+		for (String temp : split) {
+			if (temp.trim().startsWith("filename")) { // 16. filename 찾기
+				System.out.println(temp); // 17. filename 출력
+				return temp.substring(temp.indexOf("=") + 2, temp.length() - 1); // 18. 파일 이름 추출
+			}
+		}
+		return null; // 19. 파일 이름이 없을 경우 null 반환
+	}
 }
-
-
-
-
-
-
-
