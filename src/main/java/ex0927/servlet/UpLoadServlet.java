@@ -23,9 +23,12 @@ public class UpLoadServlet extends HttpServlet {
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String name = request.getParameter("name");
-		String subject = request.getParameter("subject");
+		String subject = request.getParameter("subject");// string 으로 넘어오는 것들은 getParameter 로 얻는다
 		
-		Part part = request.getPart("file");//Servlet 3.0버전부터 제공되는 Part API를 이용한 방법인데, getPart() 메서드
+		Part part = request.getPart("file");
+		//Servlet 3.0버전부터 제공되는 Part API를 이용한 방법인데, getPart() 메서드
+		// 파일들은 getParameter 로 얻지 못한다
+
 		String fileName = this.getFilename(part);// 파일이름 조회
 		long fileSize = part.getSize(); // 첨부된 파일 크기
 		
