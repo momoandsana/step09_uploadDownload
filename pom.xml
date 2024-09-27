@@ -1,0 +1,50 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.example</groupId>
+  <artifactId>step09_uploadDownload</artifactId>
+  <packaging>war</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>step09_uploadDownload Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+
+  <dependencies>
+    <!-- JUnit for testing -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Servlet API -->
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <version>5.0.0</version> <!-- 버전은 프로젝트에 맞게 설정 -->
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- JSP API (Optional if using JSP) -->
+    <dependency>
+      <groupId>jakarta.servlet.jsp</groupId>
+      <artifactId>jakarta.servlet.jsp-api</artifactId>
+      <version>3.0.0</version> <!-- 버전은 프로젝트에 맞게 설정 -->
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- JSTL (Optional if using JSP with JSTL) -->
+    <dependency>
+      <groupId>jakarta.servlet.jsp.jstl</groupId>
+      <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+      <version>2.0.0</version> <!-- 버전은 프로젝트에 맞게 설정 -->
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <finalName>step09_uploadDownload</finalName>
+  </build>
+
+</project>
