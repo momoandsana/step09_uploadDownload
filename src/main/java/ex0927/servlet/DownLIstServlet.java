@@ -18,8 +18,11 @@ public class DownLIstServlet extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//save폴더에 있는 파일의 정보를 가져와서 저장한후 뷰쪽으로 이동한다.
 		
-		String saveDir = request.getServletContext().getRealPath("/save");
-		File file = new File(saveDir);
+//		String saveDir = request.getServletContext().getRealPath("/save");
+		String saveDir="C:\\Edu\\WebProgramming\\save\\";
+
+		File file = new File(saveDir); // 폴더
+
 		if(file.exists()) {//존재한다면...
 			String fileNames [] = file.list();
 			request.setAttribute("fileNames", fileNames);//뷰에서 ${fileNames}
@@ -27,6 +30,7 @@ public class DownLIstServlet extends HttpServlet {
 		
 		//이동
 		request.getRequestDispatcher("downList.jsp").forward(request, response);
+		// 정보를 담아서 forward
 	}
 
 }
